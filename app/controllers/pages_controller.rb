@@ -44,29 +44,47 @@ class PagesController < ApplicationController
 
     respond_to do |format|
       if @page.save
-        format.html { redirect_to(@page, :notice => 'Page was successfully created.') }
+        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully created.') }
         format.xml  { render :xml => @page, :status => :created, :location => @page }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end
+    
+    
+    
   end
 
   # PUT /pages/1
   # PUT /pages/1.xml
   def update
     @page = Page.find(params[:id])
+    
+    initialOrder = @page.order
+    
+    
+    # Verificar se o order q esta sendo colocado esta dentro do range. Se for maior corrigir aqui, se for menor q o range
+    # (zero ou negativo) vai ser tratado via validaçoes no model.
 
+    if Integer(params[:page][:order]) >= 10
+      puts "AAAAA"
+    end
+    
     respond_to do |format|
       if @page.update_attributes(params[:page])
-        format.html { redirect_to(@page, :notice => 'Page was successfully updated.') }
+        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end
+    
+    shift = initialOrder - @page.order
+   
+    rearrange_order(shift, @page)
+  
   end
 
   # DELETE /pages/1
@@ -76,8 +94,32 @@ class PagesController < ApplicationController
     @page.destroy
 
     respond_to do |format|
-      format.html { redirect_to(pages_url) }
+      format.html { redirect_to(new_page_path) }
       format.xml  { head :ok }
     end
   end
+  
+  private
+    
+    def rearrange_order(shift, page)
+      pages = Page.all.sort # trocar pelo @pages
+      if shift > 0
+        pages.each do |p|
+          if p != page && p.order == page.order
+            p.order = p.order + 1
+            p.update_attributes(params[:p])
+            rearrange_order(shift, p)
+          end
+        end
+      elsif shift < 0
+        pages.each do |p|
+          if p != page && p.order == page.order
+            p.order = p.order - 1
+            p.update_attributes(params[:p])
+            rearrange_order(shift, p)
+          end
+        end
+      end
+    end
+    
 end
