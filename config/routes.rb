@@ -2,7 +2,7 @@ Genwapsite::Application.routes.draw do
   root :to => 'pages#new', :as => 'newpage'
   get "generator/index"
 
-  resources :pages
+  resources :pages, :only => [:new, :edit, :create, :update, :destroy]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
