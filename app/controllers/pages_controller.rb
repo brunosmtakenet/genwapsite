@@ -2,8 +2,6 @@ class PagesController < ApplicationController
   # GET /pages
   # GET /pages.xml
   def index
-    @pages = Page.all.sort
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @pages }
@@ -40,8 +38,18 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.xml
   def create
+    # No CREATE pode inserir até uma posição depois do maxOrder
+    maxOrder = get_maxOrder + 1
+   
+    puts maxOrder
+    if params[:page][:order] != "" 
+      if Integer(params[:page][:order]) > maxOrder
+      params[:page][:order] = maxOrder
+      end
+    end
+    
     @page = Page.new(params[:page])
-
+    
     respond_to do |format|
       if @page.save
         format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully created.') }
@@ -52,7 +60,13 @@ class PagesController < ApplicationController
       end
     end
     
-    
+    # Se inserir um novo em qualquer posição que não seja depois da ultima vai haver shift right de elemento(s)
+    if params[:page][:order] != ""
+      shift = 1
+      if @page.order < maxOrder
+        rearrange_order(shift, @page)
+      end
+    end
     
   end
 
@@ -63,12 +77,17 @@ class PagesController < ApplicationController
     
     initialOrder = @page.order
     
-    
     # Verificar se o order q esta sendo colocado esta dentro do range. Se for maior corrigir aqui, se for menor q o range
     # (zero ou negativo) vai ser tratado via validaçoes no model.
 
-    if Integer(params[:page][:order]) >= 10
-      puts "AAAAA"
+    # No UPDATE pode substituir o order por no máximo o maior order.
+    maxOrder = get_maxOrder
+    
+    puts maxOrder
+    if params[:page][:order] != "" 
+      if Integer(params[:page][:order]) > maxOrder
+        params[:page][:order] = maxOrder
+      end
     end
     
     respond_to do |format|
@@ -81,10 +100,10 @@ class PagesController < ApplicationController
       end
     end
     
-    shift = initialOrder - @page.order
-   
-    rearrange_order(shift, @page)
-  
+    if params[:page][:order] != "" 
+      shift = initialOrder - @page.order
+      rearrange_order(shift, @page)
+    end
   end
 
   # DELETE /pages/1
@@ -120,6 +139,16 @@ class PagesController < ApplicationController
           end
         end
       end
+    end
+    
+    def get_maxOrder
+      maxOrder = 0
+      @pages.each do |p|
+        if p.order > maxOrder
+          maxOrder = p.order
+        end
+      end
+      return maxOrder
     end
     
 end
