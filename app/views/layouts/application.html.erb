@@ -9,11 +9,20 @@
 </head>
 <body>
 	<div id="header">
-		<%= render 'layouts/header' %>
 	</div>
-	<div id="main">
-		<%= yield %>
+	
+	<div id="nav" class="row">
+	<div class="column grid_2"><a href="">P&aacute;ginas</a></div>
+	<div class="column grid_2"><a href="">Layout</a></div>
+	<div class="column grid_2"><a href="">Preview</a></div>
+	<div class="column grid_2"><a href="">Publicar</a></div>
+	<div class="column grid_2"><a href="">Configura&ccedil&otilde;es</a></div>        
+	<div class="column grid_2"><a href="">Sair</a></div>	
 	</div>
-
+	
+	<div id="pages" class="row">
+	  <%= yield %>
+	</div>
+	
 </body>
 </html>

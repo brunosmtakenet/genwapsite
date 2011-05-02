@@ -5,12 +5,14 @@ class Page < ActiveRecord::Base
   
   def check_order
       max_order = Page.maximum(:order)
-    
       if self.order > max_order
         self.order = max_order
       end
-        
-      current = Page.find(self.id)
+      if self.order == 0
+        self.order += 1
+      end
+      
+      current = Page.find(self.id) 
       if(self.order > current.order)
         shift(current.order+1, self.order,-1)
       elsif(self.order < current.order)
@@ -44,7 +46,4 @@ class Page < ActiveRecord::Base
     self.order <=> u.order
   end
   
-  def include?
-    return self.order.empty?
-  end
 end

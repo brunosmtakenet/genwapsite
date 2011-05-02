@@ -29,6 +29,26 @@ class PagesController < ApplicationController
       format.xml  { render :xml => @page }
     end
   end
+  
+  def edit_multiple
+    @pages = Page.all.sort
+    
+  end
+  
+  def update_multiple
+    @pages = Page.all.sort
+    
+    
+    
+    @pages.each do |page|
+      page.title = params["Title#{page.id}"]
+      page.content = params["Content#{page.id}"]
+      page.check_order if page.valid?
+      page.save
+    end
+    
+    redirect_to(edit_multiple_path, :notice => "Pages Updated!")
+  end
 
   # GET /pages/1/edit
   def edit
@@ -38,31 +58,38 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.xml
   def create
-    @page = Page.new(params[:page])
+    @page = Page.new()
+    @page.title = "Nova Página"
+    @page.content = "Coloque conteúdo aqui."
     @page.push_back
     
     respond_to do |format|
       if @page.save
-        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully created.') }
+        format.html { redirect_to(edit_multiple_path, :notice => 'Page was successfully created.') }
         format.xml  { render :xml => @page, :status => :created, :location => @page }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @page.errors, :status => :unprocessable_entity }
       end
     end
-    
+  
   end
 
   # PUT /pages/1
   # PUT /pages/1.xml
   def update
     @page = Page.find(params[:id])
-    @page.attributes = params[:page]
-    @page.check_order if @page.valid?
+    if params[:shift] == "left"
+      @page.order -= 1  
+    elsif params[:shift] == "right"
+      @page.order += 1
+    end
+    
+    @page.check_order 
     
     respond_to do |format|
       if @page.save
-        format.html { redirect_to(edit_page_path(@page), :notice => 'Page was successfully updated.') }
+        format.html { redirect_to(edit_multiple_path, :notice => 'Page was successfully updated.') }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -81,7 +108,7 @@ class PagesController < ApplicationController
     @page.destroy
 
     respond_to do |format|
-      format.html { redirect_to(new_page_path) }
+      format.html { redirect_to(edit_multiple_path) }
       format.xml  { head :ok }
     end
   end

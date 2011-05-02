@@ -1,9 +1,10 @@
 Genwapsite::Application.routes.draw do
-  root :to => 'pages#new', :as => 'newpage'
+  root :to => 'pages#edit_multiple', :as => 'edit_multiple'
   get "generator/index"
-
-  resources :pages, :only => [:new, :edit, :create, :update, :destroy, :show]
-
+  
+  resources :pages do
+    post 'update_multiple', :on => :collection
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

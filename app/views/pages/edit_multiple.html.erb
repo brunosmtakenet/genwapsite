@@ -1,0 +1,46 @@
+<%= form_for :page, :url => { :action => "update_multiple" } do |f| %>
+  <% @pages.each do |page| %>
+    <% if page.errors.any? %>
+      <div id="error_explanation">
+	<h2><%= pluralize(page.errors.count, "error") %> prohibited this page from being saved:</h2>
+
+	<ul>
+	<% page.errors.full_messages.each do |msg| %>
+	  <li><%= msg %></li>
+	<% end %>
+	</ul>
+      </div>
+    <% end %>
+	
+    <div class="column grid_3 page">
+    	<%= label_tag "Title#{page.id}", "Titulo" %>
+    	<%= text_field_tag "Title#{page.id}", page.title %>
+    
+    <!--<div class="field">
+      <%= label_tag "Order#{page.id}", "Order" %><br />
+      <%= text_field_tag "Order#{page.id}", page.order %>
+    </div> -->
+    
+      <%= label_tag "Content#{page.id}", "Conteudo" %>
+      <%= text_area_tag "Content#{page.id}", page.content , :size => "40x12"%>
+      
+      <%= link_to "<<", {:action => :update, :controller => :pages, :id => page.id, :shift => "left"}, :method => :put %>
+      <div class="remove_link">
+	<%= link_to 'Remover', page, :confirm => 'Are you sure?', :method => :delete %>
+      </div>
+      <%= link_to ">>", {:action => :update, :controller => :pages, :id => page.id, :shift => "right"}, :method => :put %>
+    </div>
+    
+    
+    
+  <% end %>
+  
+  <div class="column grid_12 buttons">
+    <%= link_to 'Nova Página', {:action => :create, :controller => :pages}, :method => :post %>
+    <div class="right" >
+    <%= f.submit("Salvar") %>
+    </div>
+  </div>
+<% end %>
+  
+
