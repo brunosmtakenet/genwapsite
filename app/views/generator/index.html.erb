@@ -1,8 +1,0 @@
-<h1>New wap page</h1>
-
-<% @pages.each do |page| %>
-	<div class="entry">
-		<h3><%= page.title %></h3>
-		<%= sanitize(page.content) %> <!-- Permite adicionar html stylings no content (?) -->
-	</div>
-<% end %>

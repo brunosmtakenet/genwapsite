@@ -1,0 +1,12 @@
+<div id="layouts" class="row">
+  <% @layouts.each do |layout| %>
+    <div class="column grid_3 page">
+      <%= label_tag layout.title %>
+      <%= image_tag layout.image_name, :class => 'layout_img' %>
+      <div class="buttons">
+      <%= link_to 'Selecionar', {:action => :select, :controller => :layouts, :id => layout.id}, :method => :post, :class => "button" %>
+      </div>
+    </div>
+  
+  <% end %>
+</div>

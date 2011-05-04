@@ -37,9 +37,7 @@ class PagesController < ApplicationController
   
   def update_multiple
     @pages = Page.all.sort
-    
-    
-    
+     
     @pages.each do |page|
       page.title = params["Title#{page.id}"]
       page.content = params["Content#{page.id}"]
@@ -48,6 +46,11 @@ class PagesController < ApplicationController
     end
     
     redirect_to(edit_multiple_path, :notice => "Pages Updated!")
+  end
+  
+  def preview
+    @layout = Layout.find_by_active(true)
+    @pages = Page.all.sort
   end
 
   # GET /pages/1/edit

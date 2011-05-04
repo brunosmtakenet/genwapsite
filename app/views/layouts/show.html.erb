@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @layout.title %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @layout.content %>
+</p>
+
+<p>
+  <b>Image name:</b>
+  <%= @layout.image_name %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @layout.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_layout_path(@layout) %> |
+<%= link_to 'Back', layouts_path %>

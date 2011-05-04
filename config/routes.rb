@@ -1,10 +1,15 @@
 Genwapsite::Application.routes.draw do
   root :to => 'pages#edit_multiple', :as => 'edit_multiple'
-  get "generator/index"
   
   resources :pages do
     post 'update_multiple', :on => :collection
+    get 'preview', :on => :collection
   end
+  
+  resources :layouts do
+    post 'select', :on => :collection
+  end
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

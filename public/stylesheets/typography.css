@@ -1,10 +1,10 @@
 body{font:16px/24px Georgia;color:#333;}
 input, textarea{font:12px/18px Arial;}
 a, a:visited{text-decoration:none;color:#4782AC;}
-a:hover{text-decoration:underline;}
 
 #nav div{text-align:center;}
-#nav div:hover{text-decoration:underline;}
+#nav a:hover{text-decoration:underline;}
 #nav a,#nav a:visited{color:#fff;}
 
 .buttons input[type="submit"], .buttons a{font:12px/24px Arial;color:#000;font-weight:bold;text-align:center;}
+.preview_page1 h2{background-color:#2c5778; display:inline-block; width:193px;padding-left:5px;}

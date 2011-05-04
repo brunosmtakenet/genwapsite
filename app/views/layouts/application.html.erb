@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Genwapsite</title>
-  <!--<%= stylesheet_link_tag :all %> -->
+  <title>Mobile Portal Architect</title>
   <%= render 'layouts/stylesheets' %>
   <%= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
+
+ 
+<style type="text/css">
+  <% if is_preview? %>
+    <%= @layout.content %>
+  <% end %>
+</style> 
+  
 </head>
 <body>
 	<div id="header">
 	</div>
 	
-	<div id="nav" class="row">
-	<div class="column grid_2"><a href="">P&aacute;ginas</a></div>
-	<div class="column grid_2"><a href="">Layout</a></div>
-	<div class="column grid_2"><a href="">Preview</a></div>
-	<div class="column grid_2"><a href="">Publicar</a></div>
-	<div class="column grid_2"><a href="">Configura&ccedil&otilde;es</a></div>        
-	<div class="column grid_2"><a href="">Sair</a></div>	
-	</div>
+	<%= render 'layouts/header' %>
 	
-	<div id="pages" class="row">
+	
 	  <%= yield %>
-	</div>
 	
 </body>
 </html>

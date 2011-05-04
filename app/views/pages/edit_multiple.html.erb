@@ -1,3 +1,4 @@
+<div id="pages" class="row">
 <%= form_for :page, :url => { :action => "update_multiple" } do |f| %>
   <% @pages.each do |page| %>
     <% if page.errors.any? %>
@@ -13,34 +14,36 @@
     <% end %>
 	
     <div class="column grid_3 page">
-    	<%= label_tag "Title#{page.id}", "Titulo" %>
-    	<%= text_field_tag "Title#{page.id}", page.title %>
-    
-    <!--<div class="field">
-      <%= label_tag "Order#{page.id}", "Order" %><br />
-      <%= text_field_tag "Order#{page.id}", page.order %>
-    </div> -->
+      <%= label_tag "Title#{page.id}", "Titulo" %>
+      <%= text_field_tag "Title#{page.id}", page.title %>
     
       <%= label_tag "Content#{page.id}", "Conteudo" %>
       <%= text_area_tag "Content#{page.id}", page.content , :size => "40x12"%>
       
-      <%= link_to "<<", {:action => :update, :controller => :pages, :id => page.id, :shift => "left"}, :method => :put %>
+      
+      <% if page.order == 1 %>
+	<%= label_tag "<<" %>
+      <% else %>
+	<%= link_to "<<", {:action => :update, :controller => :pages, :id => page.id, :shift => "left"}, :method => :put %>
+      <% end %>
       <div class="remove_link">
 	<%= link_to 'Remover', page, :confirm => 'Are you sure?', :method => :delete %>
       </div>
-      <%= link_to ">>", {:action => :update, :controller => :pages, :id => page.id, :shift => "right"}, :method => :put %>
+      <% if page.order == Page.maximum(:order) %>
+	<%= label_tag ">>" %>
+      <% else %>
+	<%= link_to ">>", {:action => :update, :controller => :pages, :id => page.id, :shift => "right"}, :method => :put %>
+      <% end %>
     </div>
-    
-    
-    
+     
   <% end %>
   
   <div class="column grid_12 buttons">
-    <%= link_to 'Nova Página', {:action => :create, :controller => :pages}, :method => :post %>
+    <%= link_to 'Nova Pagina', {:action => :create, :controller => :pages}, :method => :post %>
     <div class="right" >
     <%= f.submit("Salvar") %>
     </div>
   </div>
 <% end %>
-  
+</div>
 

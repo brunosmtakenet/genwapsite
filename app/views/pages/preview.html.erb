@@ -1,0 +1,17 @@
+<div id="layouts" class="row">
+<% @pages.each do |page| %>  
+    <div class="column grid_3 page">
+      <%= label_tag page.title %>
+      <div class="preview_page1">
+        <% @pages.each do |p| %>
+          <h2>
+            <%= label_tag p.title %> 
+          </h2> 
+        <% end %>
+        <p>
+          <%= label_tag page.content %>
+        </p>
+      </div>
+    </div>
+<% end %>
+  </div>
