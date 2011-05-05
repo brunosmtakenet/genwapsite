@@ -13,11 +13,15 @@ class LayoutsController < ApplicationController
   def select
     @layout = Layout.find_by_active(true)
     @layout.active = false
+    @layout.update_attributes(@layout.active)
     
     @layout = Layout.find(params[:id])
     @layout.active = true
+    @layout.update_attributes(@layout.active)
     
-    redirect_to(layouts_path, :notice => 'Layout selected!')
+    @l = Layout.find_by_active(true)
+    
+    redirect_to(preview_pages_path, :notice => 'Layout selected!')
   end
 
   # GET /layouts/1
