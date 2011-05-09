@@ -62,8 +62,8 @@ class PagesController < ApplicationController
   # POST /pages.xml
   def create
     @page = Page.new()
-    @page.title = "Nova Página"
-    @page.content = "Coloque conteúdo aqui."
+    @page.title = "Nova Pagina"
+    @page.content = "Coloque conteudo aqui."
     @page.push_back
     
     respond_to do |format|
