@@ -1,6 +1,7 @@
 <div id="pages" class="row">
 <%= form_for :page, :url => { :action => "update_multiple" } do |f| %>
   <% @pages.each do |page| %>
+    
     <% if page.errors.any? %>
       <div id="error_explanation">
 	<h2><%= pluralize(page.errors.count, "error") %> prohibited this page from being saved:</h2>
